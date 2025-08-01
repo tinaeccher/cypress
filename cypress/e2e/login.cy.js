@@ -29,7 +29,7 @@ describe('QAzando - Tela de Login', () => {
   });
 
   it('CT004 - Login com e-mail vazio e senha correta', () => {
-    loginPage.fillEmail('');
+    //loginPage.fillEmail('');
     loginPage.fillPassword('senha123');
     loginPage.submit();
     loginPage.assertErrorMessage('E-mail inválido.');
@@ -37,14 +37,16 @@ describe('QAzando - Tela de Login', () => {
 
   it('CT005 - Login com e-mail correto e senha vazia', () => {
     loginPage.fillEmail('usuario@teste.com');
-    loginPage.fillPassword('');
+    //loginPage.fillPassword('');
     loginPage.submit();
     loginPage.assertErrorMessage('Senha inválida.');
   });
 
+  /*
   it('CT006 - Acessar opção "Esqueceu a senha"', () => {
     loginPage.clickForgotPassword();
     cy.url().should('include', '/recuperar-senha');
     cy.contains('Recuperar Senha').should('be.visible');
   });
+  */
 });

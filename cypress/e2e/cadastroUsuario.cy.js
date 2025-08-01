@@ -1,6 +1,7 @@
 import { RegisterPage } from '../support/pages/RegisterPage';
+import { faker } from '@faker-js/faker';
 
-describe('Tela de Cadastro de Usuário', () => {
+describe('Tela de Cadastro de Usuário - com Faker', () => {
   const register = new RegisterPage();
 
   beforeEach(() => {
@@ -8,42 +9,57 @@ describe('Tela de Cadastro de Usuário', () => {
   });
 
   it('CT001 - Cadastro com dados válidos', () => {
-    const emailUnico = `tina${Date.now()}@email.com`;
-    register.preencherNome('Tina Teste');
-    register.preencherEmail(emailUnico);
-    register.preencherSenha('SenhaSegura123');
+    const nome = faker.person.fullName(); // Gera nome completo
+    const email = faker.internet.email(); // Gera e-mail único
+    const senha = faker.internet.password({ length: 12 }); // Gera senha segura
+
+    register.preencherNome(nome);
+    register.preencherEmail(email);
+    register.preencherSenha(senha);
     register.clicarCadastrar();
-    register.validarMensagem('Cadastro realizado com sucesso');
+    register.validarMensagem('Cadastro realizado!');
   });
 
   it('CT002 - Cadastro com nome vazio', () => {
-    register.preencherNome('');
-    register.preencherEmail('tina@email.com');
-    register.preencherSenha('SenhaSegura123');
+    const email = faker.internet.email();
+    const senha = faker.internet.password();
+
+    //register.preencherNome('Tina Teste');
+    register.preencherEmail(email);
+    register.preencherSenha(senha);
     register.clicarCadastrar();
-    register.validarMensagem('O campo nome é obrigatório');
+    register.validarMensagem('O campo nome deve ser prenchido');
   });
 
   it('CT003 - Cadastro com e-mail inválido', () => {
-    register.preencherNome('Tina Teste');
+    const nome = faker.person.fullName();
+    const senha = faker.internet.password();
+
+    register.preencherNome(nome);
     register.preencherEmail('email-invalido');
-    register.preencherSenha('SenhaSegura123');
+    register.preencherSenha(senha);
     register.clicarCadastrar();
-    register.validarMensagem('E-mail inválido');
+    register.validarMensagem('O campo e-mail deve ser prenchido corretamente');
   });
 
   it('CT004 - Cadastro com senha vazia', () => {
-    register.preencherNome('Tina Teste');
-    register.preencherEmail('tina@email.com');
-    register.preencherSenha('');
+    const nome = faker.person.fullName();
+    const email = faker.internet.email();
+
+    register.preencherNome(nome);
+    register.preencherEmail(email);
+   // register.preencherSenha('');
     register.clicarCadastrar();
-    register.validarMensagem('O campo senha é obrigatório');
+    register.validarMensagem('O campo senha deve ter pelo menos 6 dígitos');
   });
 
   it('CT005 - Cadastro com e-mail já existente', () => {
-    register.preencherNome('Tina Teste');
-    register.preencherEmail('tina@email.com'); // e-mail já cadastrado
-    register.preencherSenha('SenhaSegura123');
+    const nome = faker.person.fullName();
+    const senha = faker.internet.password();
+
+    register.preencherNome(nome);
+    register.preencherEmail('tina@email.com'); // e-mail fixo já cadastrado
+    register.preencherSenha(senha);
     register.clicarCadastrar();
     register.validarMensagem('E-mail já cadastrado');
   });

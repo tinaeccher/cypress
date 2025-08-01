@@ -4,22 +4,26 @@ export class RegisterPage {
   }
 
   preencherNome(nome) {
-    cy.get('input[name="name"]').clear().type(nome);
+    cy.get('input[id="user"]').clear().type(nome);
   }
 
   preencherEmail(email) {
-    cy.get('input[name="email"]').clear().type(email);
+    cy.get('input[id="email"]').clear().type(email);
   }
 
   preencherSenha(senha) {
-    cy.get('input[name="password"]').clear().type(senha);
+    cy.get('input[id="password"]').clear().type(senha);
   }
 
   clicarCadastrar() {
-    cy.get('button[type="submit"]').click();
+    cy.get('button[id="btnRegister"]').click();
   }
 
   validarMensagem(mensagem) {
     cy.contains(mensagem).should('be.visible');
+  }
+
+  clicarOK() {
+    cy.get('button[type="button"]').click();
   }
 }
